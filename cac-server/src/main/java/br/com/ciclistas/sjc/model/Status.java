@@ -7,13 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 /**
  * @author Pedro Hos
  *
  */
 @Entity
 @Table(name = "STATUS")
-public class Status {
+public class Status extends PanacheEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -7,13 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 /**
  * @author Pedro Hos
  *
  */
 @Entity
 @Table(name = "OCCURRENCE_TYPE")
-public class OccurrenceType {
+public class OccurrenceType extends PanacheEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

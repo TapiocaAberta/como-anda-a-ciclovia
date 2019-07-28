@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 @Entity
 @Table(name = "SYS_USER")
-public class SysUser {
+public class SysUser extends PanacheEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
