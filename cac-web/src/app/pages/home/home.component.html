@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-sm" *ngIf="occurrences">
+
+      <div class="jumbotron jumbotron-fluid">
+        <h2 class="text-danger text-center">
+          <strong>Como anda a ciclovia da sua cidade?</strong>
+        </h2>
+
+        <p class="lead text-center">
+          Esse lugar foi feito para você, que anda de bike ou outro modal
+          relatar qualquer problema enquanto estiver indo ou vindo pela cidade
+        </p>
+      </div>
+
+      <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" >
+
+        <agm-marker *ngFor="let occurrence of occurrences"
+                    [latitude]="occurrence.latitude"
+                    [longitude]="occurrence.longitude"
+                    [iconUrl]="iconPath + occurrence.status.pinName">
+
+          <agm-info-window>
+            <p><strong> {{occurrence.status.name}}</strong></p>
+            <p><b>quando </b> <strong>{{occurrence.occurrenceDate}}</strong></p>
+            <p><b>onde </b><strong>{{occurrence.location}}</strong></p>
+            <p><b>descrição: </b><strong>{{occurrence.description}}</strong></p>
+            <a href="/occurrences/{{occurrence.id}}"> + ver detalhes </a>
+          </agm-info-window>
+
+        </agm-marker>
+      </agm-map>
+
+      <br />
+
+      <div class="text-center">
+        <h5>
+          <strong>Viu um buraco, falta de sinalização ou outro tipo de problema?</strong>
+        </h5>
+        <a class="btn btn-danger btn-lg" href="occurrences">+inserir ponto no mapa</a>
+      </div>
+
+      <br />
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+
+          <h4 class="text-danger text-center">
+            <strong>Ao participar, você ajuda</strong>
+          </h4>
+
+            <div class="row">
+                <div class="col-sm">
+                  <strong> a garantir </strong> o direito de ir e vir com saúde e bem-estar
+                </div>
+                <div class="col-sm">
+                  <strong> a pressionar </strong>  autoridades para que medidas sejam tomadas
+                </div>
+                <div class="col-sm">
+                  a dar <strong> visibilidade </strong> a outros meio de transporte urbanos
+                </div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

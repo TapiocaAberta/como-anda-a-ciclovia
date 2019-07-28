@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -57,6 +58,7 @@ public class OccurrenceResource {
 	@POST
 	@Consumes("multipart/form-data;charset=UTF-8")
 	@Path(value = "/upload")
+	@Transactional
 	public Response newOccurrenceWithUploads(MultipartFormDataInput multipart) throws IOException {
 		
 		logger.info("Saving new occurrence!");
