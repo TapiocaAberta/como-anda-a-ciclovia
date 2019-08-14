@@ -16,15 +16,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ciclistas.sjc.model.Occurrence;
 import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
@@ -32,8 +33,6 @@ import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 
 /**
  * @author Pedro Hos
- * @param <MultipartFormDataInput>
- *
  */
 
 @Path("occurrences")
@@ -115,8 +114,8 @@ public class OccurrenceResource {
 	}
 	
 	@GET
-	@Path("/{id}")
-	public Response findById(final Long id) {
+	@Path(value = "/{id}")
+	public Response findById(@PathParam("id") final Long id) {
 		return Response.ok().entity(JaxrsUtils.throw404IfNull(Occurrence.findById(id))).build();
 	}
 

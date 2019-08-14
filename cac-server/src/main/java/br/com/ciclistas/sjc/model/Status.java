@@ -2,9 +2,6 @@ package br.com.ciclistas.sjc.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -17,18 +14,17 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Table(name = "STATUS")
 public class Status extends PanacheEntity {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
-	public Long id;
-		
 	@Column(nullable = false)
 	public String name;
-	
+
 	@Column(nullable = false)
 	public String description;
-	
+
 	@Column(name = "pin_name", nullable = false)
 	public String pinName;
-	
+
+	public Long getId() {
+		return this.id;
+	}
+
 }
