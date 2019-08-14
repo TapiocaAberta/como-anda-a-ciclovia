@@ -61,20 +61,13 @@ public class OccurrenceResource {
 	public Response newOccurrenceWithUploads(MultipartFormDataInput multipart) throws IOException {
 		
 		logger.info("Saving new occurrence!");
-		
-		//logger.info("Is admin? " + securityContext.isUserInRole("admin"));
 
 		Occurrence occurrence = getOccurence(multipart);
-		
 		Optional<List<InputPart>> photos = Optional.ofNullable(multipart.getFormDataMap().get("uploads"));
-		
-		if(photos.isPresent()) {
-			List<String> urlImages = savePhoto(photos.get());
-			occurrence.pathPhoto = urlImages;
-		}
+
+		photos.ifPresent(f -> occurrence.pathPhoto = savePhoto(f));
 		
 		Occurrence.persist(occurrence);
-		
 		return Response.created(URI.create("/occurrences/" + occurrence.id)).entity(occurrence).build();
 	}
 
