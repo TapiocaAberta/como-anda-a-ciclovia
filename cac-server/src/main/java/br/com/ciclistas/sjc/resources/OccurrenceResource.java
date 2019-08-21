@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ciclistas.sjc.model.Occurrence;
+import br.com.ciclistas.sjc.model.OccurrenceType;
 import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 
 
@@ -71,8 +73,16 @@ public class OccurrenceResource {
 		return Response.created(URI.create("/occurrences/" + occurrence.id)).entity(occurrence).build();
 	}
 
+	@Transactional
 	private Occurrence getOccurence(MultipartFormDataInput multipart) throws IOException {
+		
 		Occurrence occurrence = new ObjectMapper().readValue(multipart.getFormDataPart("occurrence", String.class, null), Occurrence.class);
+		
+		//Ok, this is not funny!
+		if(occurrence.type == null) {
+			occurrence.type = OccurrenceType.findById(99L);
+		}
+		
 		return occurrence;
 	}
 

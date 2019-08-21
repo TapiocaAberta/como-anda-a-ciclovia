@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -49,7 +50,8 @@ public class Occurrence extends PanacheEntity {
 	@OneToOne
 	public Status status;
 	
-	@OneToOne
+	@OneToOne(optional = true)
+	@JoinColumn(nullable = true) 
 	public OccurrenceType type;
 	
 	@Column(length = 1000)

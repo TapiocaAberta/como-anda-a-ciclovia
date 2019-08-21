@@ -15,5 +15,6 @@ INSERT INTO OCCURRENCE_TYPE (ID, NAME) VALUES (7, 'Tachão distante entre um e o
 INSERT INTO OCCURRENCE_TYPE (ID, NAME) VALUES (8, 'Trecho sem iluminação com falta de iluminação');
 INSERT INTO OCCURRENCE_TYPE (ID, NAME) VALUES (9, 'Tem mato crescendo');
 INSERT INTO OCCURRENCE_TYPE (ID, NAME) VALUES (10, 'Espaço é muito limitado');
+INSERT INTO OCCURRENCE_TYPE (ID, NAME) VALUES (99, 'Sem Categoria');
 
 INSERT INTO SYS_USER(ID, NAME, PASSWORD, ROLE) VALUES (1, 'Penny', 'password', 'admin')

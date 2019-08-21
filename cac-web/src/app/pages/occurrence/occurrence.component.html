@@ -62,9 +62,9 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="TypeCombo">Selecione uma categoria</label>
-          <select required class="form-control" [(ngModel)]="occurrence.type" name="type" id="TypeCombo">
+        <div class="form-group" [hidden]="occurrence.status.id !== 1">
+          <label for="TypeCombo">Selecione uma categoria </label>
+          <select class="form-control" [(ngModel)]="occurrence.type" name="type" id="TypeCombo">
             <option *ngFor="let type of typeList" [ngValue]="type">{{type.name}}</option>
           </select>
       </div>
