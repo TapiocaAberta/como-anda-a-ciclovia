@@ -4,21 +4,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-
 /**
  * @author Pedro Hos
  *
  */
 @Entity
 @Table(name = "OCCURRENCE_TYPE")
-public class OccurrenceType extends PanacheEntity {
+public class OccurrenceType extends DefaultEntity {
 
+	private static final long serialVersionUID = 4338524425858692845L;
+	
 	@Column(nullable = false)
-	public String name;
+	private String name;
 
-	public Long getId() {
-		return this.id;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

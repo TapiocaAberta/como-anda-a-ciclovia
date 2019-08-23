@@ -7,11 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,7 +29,8 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ciclistas.sjc.model.Occurrence;
-import br.com.ciclistas.sjc.model.OccurrenceType;
+import br.com.ciclistas.sjc.repository.OccurrenceRepository;
+import br.com.ciclistas.sjc.repository.OccurrenceTypeRepository;
 import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 
 
@@ -42,18 +43,24 @@ import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 @Produces("application/json; charset=UTF-8")
 public class OccurrenceResource {
 	
-	Logger logger =  Logger.getLogger(OccurrenceResource.class.getName());
+	private Logger logger =  Logger.getLogger(OccurrenceResource.class.getName());
 
 	@ConfigProperty(name = "path.image.dir")
-	String localPath;
+	private String localPath;
 
 	@ConfigProperty(name ="web.context")
-	String webContext;
-
+	private String webContext;
+	
+	@Inject
+	private OccurrenceRepository occurrenceRepository;
+	
+	@Inject
+	private OccurrenceTypeRepository occurrenceTypeRepository;
+	
 	@POST
 	public Response newOccurrence(final Occurrence occurrence) {
-		Occurrence.persist(occurrence);
-		return Response.created(URI.create("/occurrences/" + occurrence.id)).build();
+		occurrenceRepository.persist(occurrence);
+		return Response.created(URI.create("/occurrences/" + occurrence.getId())).build();
 	}
 	
 	@POST
@@ -67,10 +74,10 @@ public class OccurrenceResource {
 		Occurrence occurrence = getOccurence(multipart);
 		Optional<List<InputPart>> photos = Optional.ofNullable(multipart.getFormDataMap().get("uploads"));
 
-		photos.ifPresent(f -> occurrence.pathPhoto = savePhoto(f));
+		photos.ifPresent(f -> occurrence.setPathPhoto(savePhoto(f)));
 		
-		Occurrence.persist(occurrence);
-		return Response.created(URI.create("/occurrences/" + occurrence.id)).entity(occurrence).build();
+		occurrenceRepository.persist(occurrence);
+		return Response.created(URI.create("/occurrences/" + occurrence.getId())).entity(occurrence).build();
 	}
 
 	@Transactional
@@ -79,8 +86,8 @@ public class OccurrenceResource {
 		Occurrence occurrence = new ObjectMapper().readValue(multipart.getFormDataPart("occurrence", String.class, null), Occurrence.class);
 		
 		//Ok, this is not funny!
-		if(occurrence.type == null) {
-			occurrence.type = OccurrenceType.findById(99L);
+		if(occurrence.getType() == null) {
+			occurrence.setType(occurrenceTypeRepository.findById(99L));
 		}
 		
 		return occurrence;
@@ -113,13 +120,13 @@ public class OccurrenceResource {
 	
 	@GET
 	public Response allOccurrence() {
-		return Response.ok().entity(JaxrsUtils.throw404IfNull(Occurrence.listAll())).build();
+		return Response.ok().entity(JaxrsUtils.throw404IfNull(occurrenceRepository.listAll())).build();
 	}
 	
 	@GET
 	@Path(value = "/{id}")
 	public Response findById(@PathParam("id") final Long id) {
-		return Response.ok().entity(JaxrsUtils.throw404IfNull(Occurrence.findById(id))).build();
+		return Response.ok().entity(JaxrsUtils.throw404IfNull(occurrenceRepository.findById(id))).build();
 	}
 
 }

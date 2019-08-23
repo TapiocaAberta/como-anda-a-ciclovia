@@ -16,49 +16,119 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-
-
 /**
  * @author Pedro Hos
  *
  */
 @Entity
 @Table(name = "OCCURRENCE")
-public class Occurrence extends PanacheEntity {
-	
+public class Occurrence extends DefaultEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2004416450960596166L;
+
 	@Column(name = "name", updatable = false, nullable = false)
-	public String name; //TODO: use keycloak in the Future
-	
+	private String name; // TODO: use keycloak in the Future
+
 	@JsonbDateFormat("dd-MM-yyy hh:mm:ss")
 	@Column(nullable = false, updatable = false)
-	public Date occurrenceDate = new Date();
-	
-	@Column(updatable = false, nullable = false)
-	public Double latitude;
+	private Date occurrenceDate = new Date();
 
 	@Column(updatable = false, nullable = false)
-	public Double longitude;
-	
-	public String location;
-	
+	private Double latitude;
+
+	@Column(updatable = false, nullable = false)
+	private Double longitude;
+
+	private String location;
+
 	@Cascade(CascadeType.ALL)
-	@CollectionTable(name="PATH_PHOTOS")
+	@CollectionTable(name = "PATH_PHOTOS")
 	@ElementCollection(fetch = FetchType.EAGER)
-	public List<String> pathPhoto;
-	
+	private List<String> pathPhoto;
+
 	@OneToOne
-	public Status status;
-	
+	private Status status;
+
 	@OneToOne(optional = true)
-	@JoinColumn(nullable = true) 
-	public OccurrenceType type;
-	
+	@JoinColumn(nullable = true)
+	private OccurrenceType type;
+
 	@Column(length = 1000)
-	public String description;
-	
-	public Long getId() {
-		return this.id;
+	private String description;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getOccurrenceDate() {
+		return occurrenceDate;
+	}
+
+	public void setOccurrenceDate(Date occurrenceDate) {
+		this.occurrenceDate = occurrenceDate;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public List<String> getPathPhoto() {
+		return pathPhoto;
+	}
+
+	public void setPathPhoto(List<String> pathPhoto) {
+		this.pathPhoto = pathPhoto;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public OccurrenceType getType() {
+		return type;
+	}
+
+	public void setType(OccurrenceType type) {
+		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
