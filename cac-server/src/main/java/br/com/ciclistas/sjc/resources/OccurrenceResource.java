@@ -46,16 +46,16 @@ public class OccurrenceResource {
 	private Logger logger =  Logger.getLogger(OccurrenceResource.class.getName());
 
 	@ConfigProperty(name = "path.image.dir")
-	private String localPath;
+	String localPath;
 
 	@ConfigProperty(name ="web.context")
-	private String webContext;
+	String webContext;
 	
 	@Inject
-	private OccurrenceRepository occurrenceRepository;
+	OccurrenceRepository occurrenceRepository;
 	
 	@Inject
-	private OccurrenceTypeRepository occurrenceTypeRepository;
+	OccurrenceTypeRepository occurrenceTypeRepository;
 	
 	@POST
 	public Response newOccurrence(final Occurrence occurrence) {

@@ -24,7 +24,7 @@ import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 public class StatusResource {
 	
 	@Inject
-	private StatusRepository statusRepository;
+	StatusRepository statusRepository;
 	
 	@GET
 	public Response getAllStatus() {

@@ -22,7 +22,7 @@ import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 public class OccurrenceTypeResource {
 	
 	@Inject
-	private OccurrenceTypeRepository repository;
+	OccurrenceTypeRepository repository;
 	
 	@GET
 	public Response getAllStatus() {
