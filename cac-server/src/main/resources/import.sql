@@ -3,7 +3,6 @@ INSERT INTO Status (id, name, pin_name, description) VALUES (1, 'Ciclovia não e
 INSERT INTO Status (id, name, pin_name, description) VALUES (2, 'Tem reforma sendo feita (manutenção)', 'pin-02.png', '');
 INSERT INTO Status (id, name, pin_name, description) VALUES (3, 'Trecho perigoso (perigo de acidentes ou falta de segurança)', 'pin-02.png', '');
 
-
 -- INSERT TYPE --
 INSERT INTO OccurrenceType (ID, NAME) VALUES (1, 'Não tem pintura no solo');
 INSERT INTO OccurrenceType (ID, NAME) VALUES (2, 'Há desgaste na pintura do solo');

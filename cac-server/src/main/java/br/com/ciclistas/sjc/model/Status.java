@@ -21,4 +21,7 @@ public class Status extends PanacheEntity {
 	@Column(name = "pin_name", nullable = false)
 	public String pinName;
 
+	public Long getId() {
+		return this.id;
+	}
 }

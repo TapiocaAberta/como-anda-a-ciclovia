@@ -11,8 +11,12 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
  */
 @Entity
 public class OccurrenceType extends PanacheEntity {
-
+	
 	@Column(nullable = false)
 	public String name;
 
+	public Long getId() {
+		return this.id;
+	}
+	
 }

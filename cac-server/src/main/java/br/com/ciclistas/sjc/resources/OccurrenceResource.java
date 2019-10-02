@@ -28,6 +28,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ciclistas.sjc.model.Occurrence;
+import br.com.ciclistas.sjc.model.Status;
 import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 
 
@@ -68,6 +69,7 @@ public class OccurrenceResource {
 		photos.ifPresent(f -> occurrence.pathPhoto = (savePhoto(f)));
 		
 		Occurrence.persist(occurrence);
+		
 		return Response.created(URI.create("/occurrences/" + occurrence.id)).entity(occurrence).build();
 	}
 
@@ -79,7 +81,13 @@ public class OccurrenceResource {
 		//Ok, this is not funny!
 		if(occurrence.type == null) {
 			occurrence.type = Occurrence.findById(99L);
+		} else { 
+			Long typeId = occurrence.type.id;
+			occurrence.type = Occurrence.findById(typeId);
 		}
+		
+		Long statusId = occurrence.status.id;
+		occurrence.status = Status.findById(statusId);
 		
 		return occurrence;
 	}

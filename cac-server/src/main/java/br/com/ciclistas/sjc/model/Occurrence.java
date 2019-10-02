@@ -4,16 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import javax.persistence.ManyToOne;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -39,19 +37,22 @@ public class Occurrence extends PanacheEntity {
 
 	public String location;
 
-	@Cascade(CascadeType.ALL)
-	@CollectionTable(joinColumns = @JoinColumn(name="id"))
+	@CollectionTable(joinColumns = @JoinColumn(name = "id"))
 	@ElementCollection(fetch = FetchType.EAGER)
 	public List<String> pathPhoto;
 
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Status status;
 
-	@OneToOne(optional = true)
+	@ManyToOne(optional = true)
 	@JoinColumn(nullable = true)
 	public OccurrenceType type;
 
 	@Column(length = 1000)
 	public String description;
+	
+	public Long getId() {
+		return this.id;
+	}
 
 }

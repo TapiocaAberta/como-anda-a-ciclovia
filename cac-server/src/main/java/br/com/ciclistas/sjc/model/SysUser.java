@@ -7,7 +7,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 public class SysUser extends PanacheEntity {
-
+	
 	@Column(length = 40)
 	public String name;
 
@@ -16,5 +16,9 @@ public class SysUser extends PanacheEntity {
 
 	@Column(updatable = false, nullable = false)
 	public String role;
+	
+	public Long getId() {
+		return this.id;
+	}
 
 }
