@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,8 +28,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ciclistas.sjc.model.Occurrence;
-import br.com.ciclistas.sjc.repository.OccurrenceRepository;
-import br.com.ciclistas.sjc.repository.OccurrenceTypeRepository;
 import br.com.ciclistas.sjc.resources.utils.JaxrsUtils;
 
 
@@ -51,16 +48,10 @@ public class OccurrenceResource {
 	@ConfigProperty(name ="web.context")
 	String webContext;
 	
-	@Inject
-	OccurrenceRepository occurrenceRepository;
-	
-	@Inject
-	OccurrenceTypeRepository occurrenceTypeRepository;
-	
 	@POST
 	public Response newOccurrence(final Occurrence occurrence) {
-		occurrenceRepository.persist(occurrence);
-		return Response.created(URI.create("/occurrences/" + occurrence.getId())).build();
+		Occurrence.persist(occurrence);
+		return Response.created(URI.create("/occurrences/" + occurrence.id)).build();
 	}
 	
 	@POST
@@ -74,10 +65,10 @@ public class OccurrenceResource {
 		Occurrence occurrence = getOccurence(multipart);
 		Optional<List<InputPart>> photos = Optional.ofNullable(multipart.getFormDataMap().get("uploads"));
 
-		photos.ifPresent(f -> occurrence.setPathPhoto(savePhoto(f)));
+		photos.ifPresent(f -> occurrence.pathPhoto = (savePhoto(f)));
 		
-		occurrenceRepository.persist(occurrence);
-		return Response.created(URI.create("/occurrences/" + occurrence.getId())).entity(occurrence).build();
+		Occurrence.persist(occurrence);
+		return Response.created(URI.create("/occurrences/" + occurrence.id)).entity(occurrence).build();
 	}
 
 	@Transactional
@@ -86,8 +77,8 @@ public class OccurrenceResource {
 		Occurrence occurrence = new ObjectMapper().readValue(multipart.getFormDataPart("occurrence", String.class, null), Occurrence.class);
 		
 		//Ok, this is not funny!
-		if(occurrence.getType() == null) {
-			occurrence.setType(occurrenceTypeRepository.findById(99L));
+		if(occurrence.type == null) {
+			occurrence.type = Occurrence.findById(99L);
 		}
 		
 		return occurrence;
@@ -120,13 +111,13 @@ public class OccurrenceResource {
 	
 	@GET
 	public Response allOccurrence() {
-		return Response.ok().entity(JaxrsUtils.throw404IfNull(occurrenceRepository.listAll())).build();
+		return Response.ok().entity(JaxrsUtils.throw404IfNull(Occurrence.listAll())).build();
 	}
 	
 	@GET
 	@Path(value = "/{id}")
 	public Response findById(@PathParam("id") final Long id) {
-		return Response.ok().entity(JaxrsUtils.throw404IfNull(occurrenceRepository.findById(id))).build();
+		return Response.ok().entity(JaxrsUtils.throw404IfNull(Occurrence.findById(id))).build();
 	}
 
 }
