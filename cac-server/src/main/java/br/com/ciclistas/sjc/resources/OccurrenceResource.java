@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -77,10 +78,10 @@ public class OccurrenceResource {
 	private Occurrence getOccurence(MultipartFormDataInput multipart) throws IOException {
 		
 		Occurrence occurrence = new ObjectMapper().readValue(multipart.getFormDataPart("occurrence", String.class, null), Occurrence.class);
-		
+		 
 		//Ok, this is not funny!
-		if(occurrence.type == null) {
-			occurrence.type = Occurrence.findById(99L);
+		if(Objects.isNull(occurrence.type) || Objects.isNull(occurrence.type.id)) {
+			occurrence.type.id = 99L;
 		} else { 
 			Long typeId = occurrence.type.id;
 			occurrence.type = Occurrence.findById(typeId);

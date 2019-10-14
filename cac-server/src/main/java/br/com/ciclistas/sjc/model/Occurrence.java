@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -41,10 +40,10 @@ public class Occurrence extends PanacheEntity {
 	@ElementCollection(fetch = FetchType.EAGER)
 	public List<String> pathPhoto;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	public Status status;
 
-	@ManyToOne(optional = true)
+	@ManyToOne
 	@JoinColumn(nullable = true)
 	public OccurrenceType type;
 
